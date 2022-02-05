@@ -7,11 +7,15 @@ plugins {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-text")
-    implementation(project(":utilities"))
+    implementation(project(":game"))
+    implementation(project(":solver"))
 }
 
 application {
     // Define the main class for the application.
-    mainClass.set("jp.gr.java_conf.spica.wordle.app.App")
+    mainClass.set("jp.gr.java_conf.spica.wordle.app.SystemIoApp")
+}
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+    standardOutput = System.`out`
 }

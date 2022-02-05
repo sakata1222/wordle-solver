@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "wordle-solver"
-include("app", "list", "utilities")
+include("app", "game", "solver")

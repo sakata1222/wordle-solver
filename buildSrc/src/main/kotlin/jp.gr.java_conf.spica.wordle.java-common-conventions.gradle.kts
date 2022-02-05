@@ -13,13 +13,17 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.guava:guava")
+    implementation("com.google.inject:guice")
+
     constraints {
-        // Define dependency versions as constraints
-        implementation("org.apache.commons:commons-text:1.9")
+        implementation("com.google.guava:guava:31.0.1-jre")
+        implementation("com.google.inject:guice:5.1.0")
     }
 
-    // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
 tasks.named<Test>("test") {
