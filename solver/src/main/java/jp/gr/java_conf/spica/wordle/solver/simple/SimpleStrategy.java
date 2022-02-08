@@ -7,7 +7,7 @@ import jp.gr.java_conf.spica.wordle.game.domain.model.AllWord;
 import jp.gr.java_conf.spica.wordle.game.domain.model.IWordleStrategy;
 import jp.gr.java_conf.spica.wordle.game.domain.model.Word;
 import jp.gr.java_conf.spica.wordle.game.domain.model.WordMatchingResult;
-import jp.gr.java_conf.spica.wordle.game.domain.model.WordSet;
+import jp.gr.java_conf.spica.wordle.game.domain.model.WordList;
 import jp.gr.java_conf.spica.wordle.solver.model.KnownCondition;
 import jp.gr.java_conf.spica.wordle.solver.model.LetterFrequencyDictionary;
 
@@ -15,7 +15,7 @@ public class SimpleStrategy implements IWordleStrategy {
 
   private final PrintStream ps;
   private AllWord allWord;
-  private WordSet answered;
+  private WordList answered;
   private LetterFrequencyDictionary letterFrequencyDictionary;
   private KnownCondition condition;
 
@@ -26,7 +26,7 @@ public class SimpleStrategy implements IWordleStrategy {
   @Override
   public void init(AllWord allWord) {
     this.allWord = allWord;
-    this.answered = WordSet.empty(allWord.wordLength());
+    this.answered = WordList.empty(allWord.wordLength());
     this.letterFrequencyDictionary = new LetterFrequencyDictionary(allWord.allWords());
     this.condition = new KnownCondition(allWord.wordLength());
   }

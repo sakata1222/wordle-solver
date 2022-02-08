@@ -3,6 +3,7 @@ package jp.gr.java_conf.spica.wordle.game.domain.model;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,21 +28,22 @@ class AnswerTest {
         "worle, false"
     })
     void matchAllMatch(String in, boolean match) {
-      Word word = new Word(in);
+      AtomicInteger idCounter = new AtomicInteger();
+      Word word = new Word(idCounter.getAndIncrement(), in);
       assertThat(answer.matches(word).allMatch()).isEqualTo(match);
     }
 
     @Test
     void matches() {
-      Word word = new Word("worde");
+      Word word = new Word(1, "worde");
       WordMatchingResult result = answer.matches(word);
       assertThat(result).isEqualTo(
           new WordMatchingResult(List.of(
-              new LetterMatchingResult(new Letter("w"), MatchType.MATCH),
-              new LetterMatchingResult(new Letter("o"), MatchType.MATCH),
-              new LetterMatchingResult(new Letter("r"), MatchType.MATCH),
-              new LetterMatchingResult(new Letter("d"), MatchType.CONTAINS),
-              new LetterMatchingResult(new Letter("e"), MatchType.NONE)
+              new LetterMatchingResult(new Letter('w'), MatchType.MATCH),
+              new LetterMatchingResult(new Letter('o'), MatchType.MATCH),
+              new LetterMatchingResult(new Letter('r'), MatchType.MATCH),
+              new LetterMatchingResult(new Letter('d'), MatchType.CONTAINS),
+              new LetterMatchingResult(new Letter('e'), MatchType.NONE)
           ))
       );
     }

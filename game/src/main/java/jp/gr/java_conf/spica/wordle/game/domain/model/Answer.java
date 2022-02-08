@@ -9,7 +9,7 @@ public record Answer(Word word) {
   }
 
   public Answer(String string) {
-    this(new Word(string));
+    this(new Word(Integer.MAX_VALUE, string));
   }
 
   public WordMatchingResult matches(Word word) {

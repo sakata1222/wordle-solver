@@ -13,7 +13,9 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("jp.gr.java_conf.spica.wordle.app.SystemIoApp")
+    mainClass.set("jp.gr.java_conf.spica.wordle.app.SolverApp")
+    applicationDefaultJvmArgs = listOf("-Xmx4096m")
+
 }
 tasks.named<JavaExec>("run") {
     standardInput = System.`in`

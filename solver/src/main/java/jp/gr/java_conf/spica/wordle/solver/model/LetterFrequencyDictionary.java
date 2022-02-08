@@ -12,7 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import jp.gr.java_conf.spica.wordle.game.domain.model.Letter;
 import jp.gr.java_conf.spica.wordle.game.domain.model.Word;
-import jp.gr.java_conf.spica.wordle.game.domain.model.WordSet;
+import jp.gr.java_conf.spica.wordle.game.domain.model.WordList;
 
 public record LetterFrequencyDictionary(Map<Letter, LetterCount> counts,
                                         List<Letter> frequencyOrdered) {
@@ -31,9 +31,9 @@ public record LetterFrequencyDictionary(Map<Letter, LetterCount> counts,
             .collect(Collectors.toList()));
   }
 
-  public LetterFrequencyDictionary(WordSet wordSet) {
-    this(wordSet.words().stream()
-        .map(Word::letters)
+  public LetterFrequencyDictionary(WordList wordList) {
+    this(wordList.words().stream()
+        .map(Word::asLetterList)
         .flatMap(List::stream)
         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
         .entrySet().stream()
@@ -51,7 +51,7 @@ public record LetterFrequencyDictionary(Map<Letter, LetterCount> counts,
         .orElseGet(() -> new LetterCount(0));
   }
 
-  public Word findMostFrequentWord(WordSet words) {
+  public Word findMostFrequentWord(WordList words) {
     Preconditions.checkArgument(words.isNotEmpty());
     return words.words()
         .stream()

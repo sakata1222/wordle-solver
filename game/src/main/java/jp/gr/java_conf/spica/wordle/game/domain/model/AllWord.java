@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public record AllWord(WordSet allWords) {
+public record AllWord(WordList allWords) {
 
   public AllWord {
     Objects.requireNonNull(allWords);
@@ -21,11 +21,19 @@ public record AllWord(WordSet allWords) {
     return allWords.contains(word);
   }
 
-  public WordSet excludeSpecified(WordSet condition) {
+  public Word getSameWord(Word other) {
+    return allWords.getSameWord(other);
+  }
+
+  public WordList excludeSpecified(WordList condition) {
     return allWords.filterSpecified(condition);
   }
 
   public int wordLength() {
     return allWords.wordLength();
+  }
+
+  public int size() {
+    return allWords().size();
   }
 }

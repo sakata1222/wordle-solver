@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import jp.gr.java_conf.spica.wordle.game.domain.model.Letter;
 import jp.gr.java_conf.spica.wordle.game.domain.model.LetterMatchingResult;
 import jp.gr.java_conf.spica.wordle.game.domain.model.MatchType;
@@ -26,11 +27,11 @@ class FixedLettersTest {
 
     private FixedLetters wxrxd = new FixedLetters(5)
         .apply(new WordMatchingResult(List.of(
-            new LetterMatchingResult(new Letter("w"), MatchType.MATCH),
-            new LetterMatchingResult(new Letter("x"), MatchType.NONE),
-            new LetterMatchingResult(new Letter("r"), MatchType.MATCH),
-            new LetterMatchingResult(new Letter("x"), MatchType.CONTAINS),
-            new LetterMatchingResult(new Letter("d"), MatchType.MATCH))));
+            new LetterMatchingResult(new Letter('w'), MatchType.MATCH),
+            new LetterMatchingResult(new Letter('x'), MatchType.NONE),
+            new LetterMatchingResult(new Letter('r'), MatchType.MATCH),
+            new LetterMatchingResult(new Letter('x'), MatchType.CONTAINS),
+            new LetterMatchingResult(new Letter('d'), MatchType.MATCH))));
 
 
     @ParameterizedTest(name = "{0} should be meets condition : {1}")
@@ -42,7 +43,9 @@ class FixedLettersTest {
         "worle, false"
     })
     void meetsCondition(String input, boolean expected) {
-      assertThat(wxrxd.meetsCondition(new Word(input))).isEqualTo(expected);
+      AtomicInteger idCounter = new AtomicInteger();
+      assertThat(wxrxd.meetsCondition(new Word(idCounter.getAndIncrement(), input))).isEqualTo(
+          expected);
     }
 
     @Test
@@ -50,11 +53,11 @@ class FixedLettersTest {
     void apply_fails_inconsistent_result() {
       assertThatExceptionOfType(IllegalArgumentException.class)
           .isThrownBy(() -> wxrxd.apply(new WordMatchingResult(List.of(
-              new LetterMatchingResult(new Letter("a"), MatchType.MATCH),
-              new LetterMatchingResult(new Letter("x"), MatchType.NONE),
-              new LetterMatchingResult(new Letter("r"), MatchType.MATCH),
-              new LetterMatchingResult(new Letter("x"), MatchType.CONTAINS),
-              new LetterMatchingResult(new Letter("d"), MatchType.MATCH)))));
+              new LetterMatchingResult(new Letter('a'), MatchType.MATCH),
+              new LetterMatchingResult(new Letter('x'), MatchType.NONE),
+              new LetterMatchingResult(new Letter('r'), MatchType.MATCH),
+              new LetterMatchingResult(new Letter('x'), MatchType.CONTAINS),
+              new LetterMatchingResult(new Letter('d'), MatchType.MATCH)))));
     }
 
     @Nested
@@ -63,11 +66,11 @@ class FixedLettersTest {
     class Wxrld {
 
       private FixedLetters wxrld = wxrxd.apply(new WordMatchingResult(List.of(
-          new LetterMatchingResult(new Letter("x"), MatchType.NONE),
-          new LetterMatchingResult(new Letter("x"), MatchType.NONE),
-          new LetterMatchingResult(new Letter("x"), MatchType.NONE),
-          new LetterMatchingResult(new Letter("l"), MatchType.MATCH),
-          new LetterMatchingResult(new Letter("x"), MatchType.NONE))));
+          new LetterMatchingResult(new Letter('x'), MatchType.NONE),
+          new LetterMatchingResult(new Letter('x'), MatchType.NONE),
+          new LetterMatchingResult(new Letter('x'), MatchType.NONE),
+          new LetterMatchingResult(new Letter('l'), MatchType.MATCH),
+          new LetterMatchingResult(new Letter('x'), MatchType.NONE))));
 
       @ParameterizedTest(name = "{0} should be meets condition : {1}")
       @CsvSource({
@@ -78,7 +81,9 @@ class FixedLettersTest {
           "worle, false"
       })
       void meetsCondition(String input, boolean expected) {
-        assertThat(wxrld.meetsCondition(new Word(input))).isEqualTo(expected);
+        AtomicInteger idCounter = new AtomicInteger();
+        assertThat(wxrld.meetsCondition(new Word(idCounter.getAndIncrement(), input))).isEqualTo(
+            expected);
       }
     }
   }

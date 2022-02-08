@@ -17,11 +17,17 @@ public record WordMatchingResult(List<LetterMatchingResult> results) {
         .allMatch(MatchType.MATCH::equals);
   }
 
-  public List<String> matchTypes() {
+  public List<String> matchTypesString() {
     return results.stream()
         .map(LetterMatchingResult::matchType)
         .map(MatchType::character)
         .collect(Collectors.toList());
+  }
+
+  public MatchTypes matchTypes() {
+    return new MatchTypes(results.stream()
+        .map(LetterMatchingResult::matchType)
+        .collect(Collectors.toList()));
   }
 
   public LetterMatchingResult get(int index) {
@@ -29,6 +35,6 @@ public record WordMatchingResult(List<LetterMatchingResult> results) {
   }
 
   public String toSimpleString() {
-    return String.join("", matchTypes());
+    return String.join("", matchTypesString());
   }
 }

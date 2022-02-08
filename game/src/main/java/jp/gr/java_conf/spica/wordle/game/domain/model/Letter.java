@@ -1,30 +1,20 @@
 package jp.gr.java_conf.spica.wordle.game.domain.model;
 
-import java.util.Locale;
+import com.google.common.base.Preconditions;
 
-public record Letter(String letter) {
+public record Letter(char letter) {
 
-  public Letter(String letter) {
-    if (letter.length() != 1) {
-      throw new IllegalArgumentException("Length of " + letter + " must be 1");
-    }
-    this.letter = letter.toLowerCase(Locale.ENGLISH);
-  }
-
-  public Letter(char c) {
-    this(String.valueOf(c));
-  }
-
-  boolean equalsIgnoreCase(Letter other) {
-    return letter.equalsIgnoreCase(other.letter);
+  public Letter(char letter) {
+    Preconditions.checkArgument(Character.isAlphabetic(letter));
+    this.letter = Character.toUpperCase(letter);
   }
 
   boolean matches(Letter other) {
-    return this.letter.equalsIgnoreCase(other.letter);
+    return letter == other.letter;
   }
 
   @Override
   public String toString() {
-    return letter;
+    return String.valueOf(letter);
   }
 }

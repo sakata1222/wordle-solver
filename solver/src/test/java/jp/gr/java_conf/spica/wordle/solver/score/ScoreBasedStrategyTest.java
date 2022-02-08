@@ -1,4 +1,4 @@
-package jp.gr.java_conf.spica.wordle.solver.simple;
+package jp.gr.java_conf.spica.wordle.solver.score;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class SimpleStrategyTest {
+class ScoreBasedStrategyTest {
 
   private static final IWordRepository wordRepository = new WordFileRepository();
   private static final int tryCount = 6;
@@ -36,14 +36,13 @@ class SimpleStrategyTest {
       "query",
       "tiger",
       "whack",
-      // "sugar"
-      // "petti"
+      "sugar"
   })
   void scenario(String answer) {
     AtomicInteger idCounter = new AtomicInteger();
     WordleGame game = new WordleGame(tryCount, allWord,
         new Answer(new Word(idCounter.getAndIncrement(), answer)));
-    GameResult result = game.start(new SimpleStrategy());
+    GameResult result = game.start(new ScoreBasedStrategy());
     assertThat(result.type()).isEqualTo(GameResultType.WIN);
   }
 }

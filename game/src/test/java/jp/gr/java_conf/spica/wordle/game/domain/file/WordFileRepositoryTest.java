@@ -9,14 +9,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class WordFileRepositoryTest {
 
-
-  @ParameterizedTest(name = "Dictionay should contain {0}")
+  @ParameterizedTest(name = "Words should contain {1}")
   @CsvSource(value = {
-      "anlas",
-      "gimpy"
+      "0, anlas",
+      "12971, gimpy"
   })
-  void allWords(String text) {
+  void allWords(int id, String text) {
     AllWord word = new WordFileRepository().allWords();
-    assertThat(word.contains(new Word(text))).isTrue();
+    assertThat(word.contains(new Word(id, text))).isTrue();
   }
 }

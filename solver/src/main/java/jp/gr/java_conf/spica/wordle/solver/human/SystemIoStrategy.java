@@ -42,11 +42,11 @@ public class SystemIoStrategy implements IWordleStrategy {
 
   private Word scan() {
     ps.println("Please input your answer");
-    return new Word(scanner.next());
+    return new Word(Integer.MAX_VALUE, scanner.next());
   }
 
   @Override
   public void feedback(Word word, WordMatchingResult result) {
-    ps.println(result.matchTypes().stream().collect(Collectors.joining("")));
+    ps.println(result.matchTypesString().stream().collect(Collectors.joining("")));
   }
 }
